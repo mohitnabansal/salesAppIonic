@@ -1,0 +1,52 @@
+<ion-header>
+ 
+ <ion-navbar>
+
+<button ion-button menuToggle icon-only>
+	<ion-icon name='menu'></ion-icon>
+</button>
+<!-- <ion-searchbar
+  [(ngModel)]="myInput"
+  [showCancelButton]="shouldShowCancel"
+  (ionInput)="onInput($event)"
+  (ionCancel)="onCancel($event)"> --> <ion-searchbar> </ion-searchbar>
+     
+</ion-navbar> 
+ <ion-item-divider small> <ion-title>Sell Product</ion-title></ion-item-divider>
+</ion-header>
+
+<ion-content padding> 
+<ion-card>
+  <ion-card-header no-padding>
+  <ion-item-divider>
+    Customer Information
+    </ion-item-divider>
+  </ion-card-header>
+  <ion-card-content>
+  <ion-list no-padding>
+
+  <ion-item>
+    <ion-label floating> Search By Name </ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label floating>Search By Phone</ion-label>
+   <ion-input type="text"></ion-input>
+  </ion-item>
+
+</ion-list>
+<br>
+<button ion-button color="light" block (click)="goTosellToCustomer()">Submit</button>
+  </ion-card-content>
+</ion-card>
+
+<ion-fab bottom right >
+  <button ion-fab>Share</button>
+  <ion-fab-list side="top">
+    <button ion-fab>Facebook</button>
+    <button ion-fab>Twitter</button>
+    <button ion-fab>Youtube</button>
+  </ion-fab-list>
+</ion-fab>
+</ion-content>

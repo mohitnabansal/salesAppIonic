@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-navbar align-title="center">
+    <button ion-button  menuToggle icon-only>
+      <ion-icon name ='menu'></ion-icon>
+    </button>
+<!-- <ion-searchbar
+  [(ngModel)]="myInput"
+  [showCancelButton]="shouldShowCancel"
+  (ionInput)="onInput($event)"
+  (ionCancel)="onCancel($event)"> -->
+  <ion-grid>
+  	<ion-row align-items-center>
+  	<ion-col col-10>
+  <ion-searchbar >
+</ion-searchbar>  
+</ion-col>
+<ion-col col-2>
+ <button ion-button left small icon-only >
+      <ion-icon name ='home'></ion-icon>
+    </button>
+    </ion-col>
+    </ion-row>
+    </ion-grid>
+  </ion-navbar>
+   <ion-item-divider text-small> <ion-title>Customer Managment</ion-title></ion-item-divider>
+</ion-header>	
+
+<ion-content padding>
+<ion-card>
+
+		<ion-card-header no-padding>
+			<ion-item-divider>Add/Edit User</ion-item-divider>
+			</ion-card-header>
+
+	<ion-card-content>
+		
+		<br>
+  <ion-list no-padding>
+  <ion-item>
+    <ion-label floating>Add/Search By Phone</ion-label>
+   <ion-input #phoneNumber type="text"></ion-input>
+  </ion-item>
+<ion-grid>
+	<ion-row align-items-stretch >
+		<ion-col ><button (click)="searchUser(phoneNumber.value)"  ion-button small block icon-only no-padding><ion-icon name="search"></ion-icon><ion-label>Search</ion-label></button></ion-col>
+	</ion-row>
+</ion-grid>
+
+</ion-list>
+
+	</ion-card-content>
+</ion-card>
+</ion-content>

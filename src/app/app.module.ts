@@ -7,6 +7,7 @@ import { File } from '@ionic-native/file';
 import { FilePath } from '@ionic-native/file-path';
 import { Camera } from '@ionic-native/camera';
 import { HttpClientModule } from '@angular/common/http';
+import { Screenshot } from '@ionic-native/screenshot';
 
 
 
@@ -28,6 +29,8 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { UserCustomerServiceProvider } from '../providers/user-customer-service/user-customer-service';
 import { CameraProvider } from '../providers/camera/camera';
 import { InventoryManagementProvider } from '../providers/inventory-management/inventory-management';
+import { FileServiceProvider } from '../providers/file-service/file-service';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -69,10 +72,12 @@ import { InventoryManagementProvider } from '../providers/inventory-management/i
     File,
     Camera,
     FilePath,
+    Screenshot,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     UserCustomerServiceProvider,
     CameraProvider,
-    InventoryManagementProvider
+    InventoryManagementProvider,
+    FileServiceProvider
   ]
 })
 export class AppModule {}

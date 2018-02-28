@@ -4,7 +4,7 @@ import { Camera } from '@ionic-native/camera';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { CameraProvider } from './../../providers/camera/camera';
 import { UserCustomerServiceProvider } from './../../providers/user-customer-service/user-customer-service';
-import { CustomerInfoInterface } from './../../interface/customer-info-interface';
+import { CustomerInfoInterface, CustomerInfo } from './../../interface/customer-info-interface';
 /**
  * Generated class for the UserAddPage page.
  *
@@ -31,26 +31,15 @@ export class UserAddPage implements AfterViewInit {
         public platform: Platform
         , private camera: Camera,
         private cameraService: CameraProvider,
-        private customerSerive: UserCustomerServiceProvider ) {
+        private customerSerive: UserCustomerServiceProvider,
+        private customer: CustomerInfo ) {
 
         this.cust = this.navParams.get( 'cust' ) != null ? this.navParams.get( 'cust' ) : {};
         const phoneNo = this.cust.customerPhone;
         const dateOfBirth = this.cust.dob == null ? "" : this.cust.dob.split( "T" )[0];
         const img = this.cust.customerImg == null ? "" : "data:image/png;base64," + this.cust.customerImg;
         this.imageString = img;
-        this.customerInfo = this.formBuilder.group( {
-            address: [this.cust.address, Validators.compose( [Validators.maxLength( 45 ), Validators.required] )],
-            age: [this.cust.age, Validators.compose( [Validators.maxLength( 3 )] )],
-            customerImg: [this.cust.customerImg],
-            dob: [dateOfBirth],
-            emailId: [this.cust.emailId],
-            gender: [this.cust.gender],
-            name: [this.cust.name],
-            customerPhone: [phoneNo],
-            id: [this.cust.id],
-            pincode: [this.cust.pincode]
-
-        } );
+        this.customerInfo =  this.customer.getNewForm(this.cust);
         console.log( this.customerInfo );
     }
 
@@ -75,7 +64,8 @@ export class UserAddPage implements AfterViewInit {
                     handler: () => {
                         this.cameraService.takePicture( this.camera )
                             .then( data => {
-                                this.customerInfo.value['customerImg'] = data;
+                                this.customerInfo.controls.customerImg.value['image64'] = data;
+                                //Can set the Image Description here
                                 this.cameraImg.nativeElement.src = "data:image/png;base64," + data;
                             } )
                             .catch( err => console.log( err ) )

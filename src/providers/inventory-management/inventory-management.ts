@@ -23,10 +23,10 @@ export class InventoryManagementProvider {
   }
 
   searchProductByBarcode(barCode:string,type:string):Observable<any>{
-    var paramsVar = new HttpParams();
-    paramsVar.append('barCode', barCode);
-return  this.http.get(environment.apiUrl+'getProductInfoByBarCode',{params:paramsVar,headers:this.headers}).pipe(
-  retry(3), // retry a failed request up to 3 times,
+    const options = barCode ?  { params: new HttpParams().set('barCode', barCode) ,headers:this.headers } : {};
+
+return  this.http.get(environment.apiUrl+'getProductInfoByBarCode',options).pipe(
+  retry(1), // retry a failed request up to 3 times,
   catchError(this.handleError),
   tap( // Log the result or error
           data => console.log(data),
@@ -35,7 +35,22 @@ return  this.http.get(environment.apiUrl+'getProductInfoByBarCode',{params:param
 );
   }
 
+ searchProductByName(productName:string,type:string):Observable<any>{
+    const options = productName ?  { params: new HttpParams().set('productName', productName) ,headers:this.headers } : {};
+
+return  this.http.get(environment.apiUrl+'getProductInfoByProductName',options).pipe(
+  retry(1), // retry a failed request up to 3 times,
+  catchError(this.handleError),
+  tap( // Log the result or error
+          data => console.log(data),
+          error => console.log(error)
+  )
+);
+  }
+
+
   createOrUpdateInventory(inventory:Inventory):Observable<any>{
+    console.log(inventory)
     return this.http.post(environment.apiUrl+'saveInventory',inventory,{headers:this.headers});
   }
 

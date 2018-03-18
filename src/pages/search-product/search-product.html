@@ -1,68 +1,77 @@
 <ion-header>
-  <ion-navbar align-title="center">
-    <button ion-button  menuToggle icon-only>
+    <ion-navbar align-title="center">
+        <button ion-button menuToggle icon-only>
       <ion-icon name ='menu'></ion-icon>
     </button>
-<!-- <ion-searchbar
+        <!-- <ion-searchbar
   [(ngModel)]="myInput"
   [showCancelButton]="shouldShowCancel"
   (ionInput)="onInput($event)"
   (ionCancel)="onCancel($event)"> -->
-  <ion-grid>
-  	<ion-row align-items-center>
-  	<ion-col col-10>
-  <ion-searchbar >
-</ion-searchbar>  
-</ion-col>
-<ion-col col-2>
- <button ion-button left small icon-only >
+        <ion-grid>
+            <ion-row align-items-center>
+                <ion-col col-10>
+                    <ion-searchbar>
+                    </ion-searchbar>
+                </ion-col>
+                <ion-col col-2>
+                    <button ion-button left small icon-only>
       <ion-icon name ='home'></ion-icon>
     </button>
-    </ion-col>
-    </ion-row>
-    </ion-grid>
-  </ion-navbar>
-   <ion-item-divider text-small> <ion-title>Product Managment</ion-title></ion-item-divider>
-</ion-header>	
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-navbar>
+    <ion-item-divider text-small>
+        <ion-title>Product Managment</ion-title>
+    </ion-item-divider>
+</ion-header>
 
 <ion-content padding>
-<ion-card>
-		<ion-card-header no-padding>
-			<ion-item-divider>Add/Edit Product</ion-item-divider>
-		</ion-card-header>
-	<ion-thumbnail item-center >
+    <ion-card>
+        <ion-card-header no-padding>
+            <ion-item-divider>Add/Edit Product</ion-item-divider>
+        </ion-card-header>
+        <!--	<ion-thumbnail item-center >
     		  <img id="cameraImg" width="200px" height="200px" #cameraImg src="http://www.gstatic.com/webp/gallery/1.jpg">
-	</ion-thumbnail>
-	<ion-card-content>
+	</ion-thumbnail> -->
+        <ion-card-content>
 
-	<br>
-	<ion-list no-padding>
-	 <ion-grid>
-			<ion-row align-items-stretch >
-				<ion-col >
-   				<button type="button" ion-button block small  (click)="openCamera()" icon-only>
+            <br>
+            <ion-list no-padding>
+                <ion-grid>
+                    <ion-row align-items-stretch>
+                        <ion-col>
+                            <button type="button" ion-button block small (click)="openCamera()" icon-only>
     					<ion-icon name="camera"></ion-icon>
     					<ion-label>Scan Barcode</ion-label>
     				</button>
-		</ion-col>
-			</ion-row>
-		</ion-grid>	
- 		<ion-item>
- 			   <ion-label floating>Add/Search By Name</ion-label>
-  			   <ion-input #productName type="text"></ion-input>
-  		</ion-item>
-		<ion-grid>
-			<ion-row align-items-stretch >
-				<ion-col >
-				<button (click)="searchProductByName(productName.value)"  ion-button small block icon-only no-padding>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+                <ion-grid>
+
+                    <ion-searchbar #productName placeholder="Add/Search By Name" [(ngModel)]="productStr" (ionInput)="searchProductByName($event)" cancelButtonText="Clear" (ionCancel)="onCancel($event)" [showCancelButton]="true">
+                    </ion-searchbar>
+                    <ion-list radio-group>
+                        <ion-item *ngFor="let item of items">
+                            <ion-label>{{item.name}}</ion-label>
+                            <ion-radio color="dark" (ionSelect)="getProductPage($event)" value="{{item.id}}"></ion-radio>
+                        </ion-item>
+                    </ion-list>
+                </ion-grid>
+                <!-- <ion-grid>
+                    <ion-row align-items-stretch>
+                        <ion-col>
+                            <button (click)="searchProductByName(productName.value)" ion-button small block icon-only no-padding>
 					<ion-icon name="search"></ion-icon><ion-label>Search</ion-label>
 				</button>
-				</ion-col>
-			</ion-row>
-		</ion-grid>		
- 		
-</ion-list>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>-->
 
-</ion-card-content>
-</ion-card>
+            </ion-list>
+
+        </ion-card-content>
+    </ion-card>
 </ion-content>

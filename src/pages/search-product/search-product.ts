@@ -1,7 +1,8 @@
-import { Inventory } from './../../interface/inventory-interface';
+import { map } from 'rxjs/operators';
+import { Inventory, ProductInfo } from './../../interface/inventory-interface';
 import { InventoryManagementProvider } from './../../providers/inventory-management/inventory-management';
 import { ProductManagementPage } from './../product-management/product-management';
-import { Component,ViewChild, ElementRef, } from '@angular/core';
+import { Component,ViewChild, ElementRef, Input, } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { CameraProvider } from './../../providers/camera/camera';
 import { BarcodeScanner,BarcodeScanResult } from '@ionic-native/barcode-scanner';
@@ -21,33 +22,62 @@ export class SearchProductPage {
 
 @ViewChild('cameraImg') cameraImg: ElementRef;
 @ViewChild('productName') productName : ElementRef;
+@Input('productStr') productStr :string;
+public items:{};
 
   constructor(public navCtrl: NavController,
           public navParams: NavParams,
           private cameraService: CameraProvider,
           private barcode:BarcodeScanner,
         public invetoryService:InventoryManagementProvider) {
+          this.items = new Array();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SearchProductPage');
 
   }
+  onCancel(evnt:any){
+    console.log("Cancel");
+console.log(evnt);
 
 
-  searchProductByName(productName:string){
-    this.invetoryService.searchProductByName(productName,null).subscribe(
+  }
+
+  getProductPage(ev:any){
+console.log(ev);
+this.invetoryService.searchProductByNameId(ev).subscribe(
+  (res)=>{
+    delete this.items;
+ this.navCtrl.push(ProductManagementPage,{inventory:res});
+  },
+(err)=>{
+  delete this.items;
+  this.navCtrl.push(ProductManagementPage,{inventory:null});
+})
+  }
+
+  searchProductByName(evnt:any){
+    this.items = new Array();
+   const prodName =  evnt.target.value;
+   if(prodName && prodName.trim()!=''){
+    this.invetoryService.searchProductByLike(prodName).subscribe(
       (response)=>{
-        this.navCtrl.push(ProductManagementPage,{inventory:response});
+    response.map((k,v)=>{
+      console.log(k.productName)
+    this.items[v] = {id:k.id,name:k.productName};
+    })
       },(error)=>{
-        this.navCtrl.push(ProductManagementPage,{inventory:null});
+        delete this.items;
         console.log(error)
       }
     )
+  }
 
   }
 
   openCamera(){
+
       this.cameraService.scanBarcode(this.barcode).then((res)=> {
           console.log(res['barcodeData'])
           console.log(res['barCodeImg'])

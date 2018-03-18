@@ -5,7 +5,7 @@ import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { environment } from './../../environments/environment';
 //Observable operators
 import { catchError, map, tap, retry } from 'rxjs/operators';
-import { Inventory } from '../../interface/inventory-interface';
+import { Inventory, ProductInfo } from '../../interface/inventory-interface';
 
 /*
   Generated class for the InventoryManagementProvider provider.
@@ -35,10 +35,16 @@ return  this.http.get(environment.apiUrl+'getProductInfoByBarCode',options).pipe
 );
   }
 
- searchProductByName(productName:string,type:string):Observable<any>{
-    const options = productName ?  { params: new HttpParams().set('productName', productName) ,headers:this.headers } : {};
+  searchProductByLike(prodStr:string):Observable<any>{
+  const options = prodStr ? {params: new HttpParams().set('productString',prodStr),headers:this.headers}:{};
+  return this.http.get<Array<ProductInfo>>(environment.apiUrl+'getProductListName',options);
 
-return  this.http.get(environment.apiUrl+'getProductInfoByProductName',options).pipe(
+  }
+
+ searchProductByNameId(productNameId:string):Observable<any>{
+    const options = productNameId ?  { params: new HttpParams().set('productNameId', productNameId) ,headers:this.headers } : {};
+
+return  this.http.get(environment.apiUrl+'getProductInfoByNameId',options).pipe(
   retry(1), // retry a failed request up to 3 times,
   catchError(this.handleError),
   tap( // Log the result or error

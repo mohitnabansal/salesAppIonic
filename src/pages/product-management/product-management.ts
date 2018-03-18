@@ -6,6 +6,9 @@ import { CameraProvider } from './../../providers/camera/camera';
 import { Component,ViewChild, ElementRef ,AfterViewInit} from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { InventoryManagementProvider } from '../../providers/inventory-management/inventory-management';
+import { ToastServiceProvider } from '../../providers/toast-service/toast-service';
+import { SearchProductPage } from '../search-product/search-product';
+
 /**
  * Generated class for the ProductManagementPage page.
  *
@@ -20,8 +23,9 @@ import { InventoryManagementProvider } from '../../providers/inventory-managemen
 export class ProductManagementPage implements AfterViewInit {
 
   public inventoryForm: FormGroup;
-  public invent: InvetoryClass;
-  private  barcodeImg :string;
+  public inventClass: InvetoryClass;
+  private invent:Inventory;
+  public  barcodeImg :string;
   private barCodeData:BarcodeScanResult;
   @ViewChild('barCode') public barCodeImage: ElementRef;
 
@@ -31,31 +35,41 @@ export class ProductManagementPage implements AfterViewInit {
     public invetoryService: InventoryManagementProvider,
     public cameraService:CameraProvider,
     private barcode:BarcodeScanner,
+    private toast:ToastServiceProvider
   ) {
     this.invent = this.navParams.get("inventory") != null ? this.navParams.get("inventory") : new InvetoryClass(this.inventoryForm, this.formBuild);
-    this.barcodeImg  = this.navParams.get("barcodeImg") != null ? this.navParams.get("barcodeImg") : "";
-    this.barCodeData  = this.navParams.get("barcodeData") != null ? this.navParams.get("barcodeData") : {text:"",format:""};
-    this.inventoryForm = this.invent.getNewForm(this.invent);
+    this.inventClass = new InvetoryClass(this.inventoryForm, this.formBuild);
+    this.inventoryForm = this.inventClass.getNewForm(this.invent);
+    console.log(this.inventoryForm )
+    this.barcodeImg  = this.navParams.get("barcodeImg") != null ?  this.navParams.get("barcodeImg") : this.inventoryForm.get('prodInfo.prodImg.image64').value;
+    this.barCodeData  = this.navParams.get("barcodeData") != null ? this.navParams.get("barcodeData") : {text:this.inventoryForm.get('prodInfo.barCodeNumber').value,format:this.inventoryForm.get('prodInfo.barcodeFormat').value} ;
     this.inventoryForm.get('prodInfo.prodImg.image64').setValue(this.barcodeImg);
     this.inventoryForm .get('prodInfo.barCodeNumber').setValue(this.barCodeData.text);
     this.inventoryForm .get('prodInfo.barcodeFormat').setValue( this.barCodeData.format);
+    this.inventoryForm.get('prodInfo.productCategory').setValue(this.invent  ? this.invent.prodInfo.productCategory : "" );
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProductManagementPage');
-    this.barCodeImage.nativeElement.src  ="data:image/jpeg;base64,"+this.barcodeImg ;
+    //this.barCodeImage.nativeElement.src  = this.barcodeImg ;
 
   }
   ngAfterViewInit(){
 
   }
+
+
   logForm() {
     console.log(this.invent)
     this.invetoryService.createOrUpdateInventory(this.inventoryForm.value).subscribe(
       (res) => {
-        console.log(res)
+        const suc = "Successfully Added New Product with Product Name" + res.prodInfo.productName;
+       this.toast.showToast(suc,2000,'top');
+       this.navCtrl.setRoot(SearchProductPage)
       }, (err) => {
-        console.log(err)
+        const failes = "Some Error occuered kindly Try Again";
+        this.toast.showToast(failes,2000,'top');
+        console.log(err);
       }
     );
   }

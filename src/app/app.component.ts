@@ -17,7 +17,7 @@ export class MyApp {
   menuContent:Array<string>;
   @ViewChild('myNav') nav: NavController;
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
-  
+
       platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -25,13 +25,13 @@ export class MyApp {
       splashScreen.hide();
     });
       }
-  
+
   ngOnInit() {
       this.setItems();
     }
-  //This values Should be fetched from server end 
+  //This values Should be fetched from server end
   setItems(){
-      this.menuContent=['Sell Product','User Management','Product Management']
+      this.menuContent=['Sell Product','User Management','Product Management','Product Catalog']
   }
   openPage(p){
       switch(p){
@@ -48,7 +48,7 @@ export class MyApp {
           this.nav.setRoot(HomePage);
           break;
       };
-    
+
       //alert(p)
   }
 }

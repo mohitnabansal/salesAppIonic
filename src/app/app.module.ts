@@ -30,6 +30,7 @@ import { UserCustomerServiceProvider } from '../providers/user-customer-service/
 import { CameraProvider } from '../providers/camera/camera';
 import { InventoryManagementProvider } from '../providers/inventory-management/inventory-management';
 import { FileServiceProvider } from '../providers/file-service/file-service';
+import { ToastServiceProvider } from '../providers/toast-service/toast-service';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { FileServiceProvider } from '../providers/file-service/file-service';
     UserCustomerServiceProvider,
     CameraProvider,
     InventoryManagementProvider,
-    FileServiceProvider
+    FileServiceProvider,
+    ToastServiceProvider
   ]
 })
 export class AppModule {}

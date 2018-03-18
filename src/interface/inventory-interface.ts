@@ -15,7 +15,7 @@ export interface ProductInfo{
 
     barcodeFormat : string;
     barCodeNumber : number;
-    CurrProdPrice : number;
+    currProdPrice : number;
     id : string
     prodDiscPrice : number;
     prodImg : ImageStore;
@@ -24,6 +24,8 @@ export interface ProductInfo{
     productVerion : number
     lastUpdatedOn:Date;
     productCategory:string;
+    productQuantity:number;
+    version:number;
 }
 
 export class InvetoryClass implements Inventory, OnInit {
@@ -40,7 +42,7 @@ export class InvetoryClass implements Inventory, OnInit {
    ){
 
     this.prodInfo =  new ProductInfoClass();
-    this.imageStore = new ImageStoreI(newForm,formBuild);
+    this.imageStore = new ImageStoreI(this.newForm,this.formBuild);
     //this.versionHistory = new Array<ProductInfoClass>();
 
   }
@@ -50,7 +52,7 @@ export class InvetoryClass implements Inventory, OnInit {
   }
  getNewForm(data:Inventory):FormGroup{
   this.newForm=this.formBuild.group({
-    id:[null],
+    id:[data.id != null ? data.id:null],
     version:[''],
     prodInfo : this.createItem(data.prodInfo),
    // versionHistory :this.formBuild.array([this.createItem()])
@@ -64,20 +66,23 @@ createItem(prodInfo:ProductInfo): FormGroup {
       prodInfo = new ProductInfoClass();
     }
   }catch(err){
+     prodInfo = new ProductInfoClass();
      console.log("Data Related to the Scanned Product Not Found");
   }
   return this.formBuild.group({
     barcodeFormat : [prodInfo.barcodeFormat],
     barCodeNumber : [prodInfo.barCodeNumber],
-    CurrProdPrice : [prodInfo.CurrProdPrice],
+    currProdPrice : [prodInfo.currProdPrice,Validators.compose( [Validators.maxLength(5), Validators.pattern('^[0-9]+(\.[0-9]*){0,1}$'),Validators.required] )],
     id : [prodInfo.id],
-    prodDiscPrice : [prodInfo.prodDiscPrice],
+    prodDiscPrice : [prodInfo.prodDiscPrice,Validators.compose( [Validators.maxLength(5), Validators.pattern('^[0-9]+(\.[0-9]*){0,1}$'),Validators.required] )],
     prodImg : this.imageStore.getNewForm(prodInfo.prodImg),
-    productDescp : [prodInfo.productDescp],
-    productName : [prodInfo.productName],
-    productVerion : [prodInfo.productVerion],
+    productDescp : [prodInfo.productDescp,Validators.compose( [Validators.maxLength(50),Validators.required] )],
+    productName : [prodInfo.productName,Validators.compose( [Validators.maxLength(20),Validators.required] )],
+    productVerion : [prodInfo.productVerion,Validators.compose( [Validators.maxLength(20),Validators.required, Validators.pattern('^[0-9]{1,10}$'),] )],
     lastUpdatedOn:[prodInfo.lastUpdatedOn],
-    productCategory:[prodInfo.productCategory]
+    productCategory:[prodInfo.productCategory,Validators.compose([Validators.required] )],
+    productQuantity:[prodInfo.productQuantity,Validators.compose( [Validators.maxLength(20),Validators.required] )],
+    version:[prodInfo.version]
   })
 }
 }
@@ -87,7 +92,7 @@ export class ProductInfoClass implements ProductInfo{
 
     barcodeFormat : string = '';
     barCodeNumber : number  = null;
-    CurrProdPrice : number = null;
+    currProdPrice : number = null;
     id : string = null;
     prodDiscPrice : number = null;
     prodImg : ImageStore = new ImageStoreI(null,null);
@@ -96,7 +101,8 @@ export class ProductInfoClass implements ProductInfo{
     productVerion : number = null;
     lastUpdatedOn:Date = null;
     productCategory:string = '';
-
+    productQuantity:number=null;
+    version:number=null;
   constructor(){
   }
 }

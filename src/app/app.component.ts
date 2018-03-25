@@ -12,7 +12,7 @@ import { SearchProductPage } from '../pages/search-product/search-product';
 import {AuthServiceProvider} from '../providers/auth-service/auth-service';
 import {LoginSignupPage} from '../pages/login-signup/login-signup';
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.html';
 })
 export class MyApp {
   rootPage:any = LoginSignupPage;

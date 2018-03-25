@@ -37,8 +37,9 @@ export class ProductManagementPage implements AfterViewInit {
     private barcode:BarcodeScanner,
     private toast:ToastServiceProvider
   ) {
-    this.invent = this.navParams.get("inventory") != null ? this.navParams.get("inventory") : new InvetoryClass(this.inventoryForm, this.formBuild);
-    this.inventClass = new InvetoryClass(this.inventoryForm, this.formBuild);
+
+    this.invent = navParams.get("inventory") != null ? navParams.get("inventory") : new InvetoryClass(this.inventoryForm, formBuild);
+    this.inventClass = new InvetoryClass(this.inventoryForm, formBuild);
     this.inventoryForm = this.inventClass.getNewForm(this.invent);
     console.log(this.inventoryForm )
     this.barcodeImg  = this.navParams.get("barcodeImg") != null ?  this.navParams.get("barcodeImg") : this.inventoryForm.get('prodInfo.prodImg.image64').value;

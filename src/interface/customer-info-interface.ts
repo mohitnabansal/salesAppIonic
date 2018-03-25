@@ -17,32 +17,31 @@ export interface CustomerInfoInterface{
 }
 
 export class CustomerInfo implements CustomerInfoInterface{
-    address : string ;
-    age : number;
+    address : string = "";
+    age : number  = null;
     customerImg : ImageStore ;
-    customerPhone : number ;
-      dob : string;
-    emailId : string;
-    gender : string ;
-    id : string ;
-  name : string ;
-    pincode : string ;
-    private customer:CustomerInfoInterface;
+    customerPhone : number = null;
+      dob : string = "";
+    emailId : string = "";
+    gender : string= "" ;
+    id : string ="";
+  name : string = "";
+    pincode : string= "";
+    public imageStore:ImageStoreI
 constructor(
   public newForm:FormGroup,
-  public formBuild:FormBuilder,
-  public imageStore:ImageStoreI
+  public formBuild:FormBuilder
 ){
-
+this.imageStore = new ImageStoreI(newForm,formBuild);
 }
-getNewForm(cust:CustomerInfoInterface):FormGroup{
+ getNewForm(cust:CustomerInfoInterface):FormGroup{
   const phoneNo = cust.customerPhone;
   const dateOfBirth = cust.dob == null ? "" : cust.dob.split( "T" )[0];
-
+  let custImage  =  cust.customerImg == null ? this.imageStore :cust.customerImg;
   this.newForm = this.formBuild.group( {
     address: [cust.address, Validators.compose( [Validators.maxLength( 45 ), Validators.required] )],
     age: [cust.age, Validators.compose( [Validators.maxLength( 3 )] )],
-    customerImg: this.imageStore.getNewForm(cust.customerImg),
+    customerImg: this.imageStore.getNewForm(custImage),
     dob: [dateOfBirth],
     emailId: [cust.emailId],
     gender: [cust.gender],

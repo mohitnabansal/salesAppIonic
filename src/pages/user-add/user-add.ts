@@ -5,6 +5,7 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { CameraProvider } from './../../providers/camera/camera';
 import { UserCustomerServiceProvider } from './../../providers/user-customer-service/user-customer-service';
 import { CustomerInfoInterface, CustomerInfo } from './../../interface/customer-info-interface';
+import { debug } from 'util';
 /**
  * Generated class for the UserAddPage page.
  *
@@ -20,9 +21,10 @@ import { CustomerInfoInterface, CustomerInfo } from './../../interface/customer-
 export class UserAddPage implements AfterViewInit {
 
     private cust: CustomerInfoInterface ;
-    private customerInfo: FormGroup;
+    public customerInfo: FormGroup;
     @ViewChild( 'cameraImg' ) cameraImg: ElementRef;
     private imageString:string;
+    public custClass:CustomerInfo;
 
     constructor( public navCtrl: NavController,
         public navParams: NavParams,
@@ -31,15 +33,16 @@ export class UserAddPage implements AfterViewInit {
         public platform: Platform
         , private camera: Camera,
         private cameraService: CameraProvider,
-        private customerSerive: UserCustomerServiceProvider,
-        private customer: CustomerInfo ) {
+        private customerSerive: UserCustomerServiceProvider
+        ) {
 
-        this.cust = this.navParams.get( 'cust' ) != null ? this.navParams.get( 'cust' ) : {};
+        this.cust = this.navParams.get( 'cust' ) != null ? this.navParams.get( 'cust' ) :{};
+        this.custClass = new CustomerInfo(this.customerInfo,this.formBuilder);
         const phoneNo = this.cust.customerPhone;
         const dateOfBirth = this.cust.dob == null ? "" : this.cust.dob.split( "T" )[0];
         const img = this.cust.customerImg == null ? "" : "data:image/png;base64," + this.cust.customerImg;
         this.imageString = img;
-        this.customerInfo =  this.customer.getNewForm(this.cust);
+        this.customerInfo =  this.custClass.getNewForm(this.cust);
         console.log( this.customerInfo );
     }
 

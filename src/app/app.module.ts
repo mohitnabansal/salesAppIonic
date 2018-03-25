@@ -8,6 +8,7 @@ import { FilePath } from '@ionic-native/file-path';
 import { Camera } from '@ionic-native/camera';
 import { HttpClientModule } from '@angular/common/http';
 import { Screenshot } from '@ionic-native/screenshot';
+import { IonicStorageModule } from '@ionic/storage';
 
 
 
@@ -21,7 +22,7 @@ import { ProductManagementPage } from  '../pages/product-management/product-mana
 import { UserManagmentPage } from '../pages/user-managment/user-managment';
 import { UserAddPage } from '../pages/user-add/user-add';
 import { SearchProductPage } from '../pages/search-product/search-product';
-
+import { LoginSignupPage } from '../pages/login-signup/login-signup';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -31,6 +32,7 @@ import { CameraProvider } from '../providers/camera/camera';
 import { InventoryManagementProvider } from '../providers/inventory-management/inventory-management';
 import { FileServiceProvider } from '../providers/file-service/file-service';
 import { ToastServiceProvider } from '../providers/toast-service/toast-service';
+import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 
 @NgModule({
   declarations: [
@@ -44,13 +46,20 @@ import { ToastServiceProvider } from '../providers/toast-service/toast-service';
     ProductManagementPage,
     UserManagmentPage,
     UserAddPage,
-    SearchProductPage
+    SearchProductPage,
+    LoginSignupPage
+
   ],
   imports: [
     BrowserModule,
     NgxDatatableModule,
     HttpClientModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot({
+      name: '__mydb',
+      storeName:'_saleLoginSignupPagesDb',
+     driverOrder: ['indexeddb', 'sqlite', 'websql']
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -64,7 +73,8 @@ import { ToastServiceProvider } from '../providers/toast-service/toast-service';
     ProductManagementPage,
     UserManagmentPage,
     UserAddPage,
-    SearchProductPage
+    SearchProductPage,
+    LoginSignupPage
   ],
   providers: [
     StatusBar,
@@ -79,7 +89,8 @@ import { ToastServiceProvider } from '../providers/toast-service/toast-service';
     CameraProvider,
     InventoryManagementProvider,
     FileServiceProvider,
-    ToastServiceProvider
+    ToastServiceProvider,
+    AuthServiceProvider
   ]
 })
 export class AppModule {}

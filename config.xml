@@ -90,6 +90,8 @@
     <allow-navigation href="http://192.168.1.4:8101" />
     <allow-navigation href="http://192.168.1.4:1801" />
     <plugin name="phonegap-plugin-barcodescanner" spec="^7.0.2" />
+    <plugin name="cordova-sqlite-storage" spec="^2.3.0" />
+    <allow-navigation href="http://192.168.1.4:8100" />
     <engine name="browser" spec="5.0.3" />
     <engine name="android" spec="~7.0.0" />
 </widget>

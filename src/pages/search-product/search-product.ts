@@ -48,10 +48,12 @@ console.log(evnt);
 console.log(ev);
 this.invetoryService.searchProductByNameId(ev).subscribe(
   (res)=>{
+
     delete this.items;
  this.navCtrl.push(ProductManagementPage,{inventory:res});
   },
 (err)=>{
+
   delete this.items;
   this.navCtrl.push(ProductManagementPage,{inventory:null});
 })
@@ -62,12 +64,15 @@ this.invetoryService.searchProductByNameId(ev).subscribe(
    const prodName =  evnt.target.value;
    if(prodName && prodName.trim()!=''){
     this.invetoryService.searchProductByLike(prodName).subscribe(
+
       (response)=>{
+
     response.map((k,v)=>{
       console.log(k.productName)
     this.items[v] = {id:k.id,name:k.productName};
     })
       },(error)=>{
+
         delete this.items;
         console.log(error)
       }

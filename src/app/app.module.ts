@@ -1,3 +1,7 @@
+import { JwtInterceptor } from './../interceptor/JwtInterceptor';
+import { HttpsRequestInterceptor } from '../interceptor/HttpsRequestInterceptor';
+
+
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
@@ -6,7 +10,7 @@ import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { File } from '@ionic-native/file';
 import { FilePath } from '@ionic-native/file-path';
 import { Camera } from '@ionic-native/camera';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS, HttpParams } from '@angular/common/http';
 import { Screenshot } from '@ionic-native/screenshot';
 import { IonicStorageModule } from '@ionic/storage';
 
@@ -84,13 +88,17 @@ import { AuthServiceProvider } from '../providers/auth-service/auth-service';
     Camera,
     FilePath,
     Screenshot,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    AuthServiceProvider,
+    {provide:HTTP_INTERCEPTORS,useClass:HttpsRequestInterceptor,multi:true},
+    {provide:HTTP_INTERCEPTORS,useClass:JwtInterceptor,multi:true},
+    {provide: ErrorHandler, useClass:IonicErrorHandler},
     UserCustomerServiceProvider,
     CameraProvider,
     InventoryManagementProvider,
     FileServiceProvider,
     ToastServiceProvider,
-    AuthServiceProvider
+
+
   ]
 })
 export class AppModule {}

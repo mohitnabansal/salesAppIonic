@@ -44,14 +44,7 @@ return  this.http.get(environment.apiUrl+'getProductInfoByBarCode',options).pipe
  searchProductByNameId(productNameId:string):Observable<any>{
     const options = productNameId ?  { params: new HttpParams().set('productNameId', productNameId) ,headers:this.headers } : {};
 
-return  this.http.get(environment.apiUrl+'getProductInfoByNameId',options).pipe(
-  retry(1), // retry a failed request up to 3 times,
-  catchError(this.handleError),
-  tap( // Log the result or error
-          data => console.log(data),
-          error => console.log(error)
-  )
-);
+return  this.http.get(environment.apiUrl+'getProductInfoByNameId',options);
   }
 
 
